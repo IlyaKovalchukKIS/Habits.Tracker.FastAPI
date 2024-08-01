@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "habits-tracker-fastapi"
+version = "0.1.0"
+description = ""
+authors = ["user <mrlivedance@vk.com>"]
+readme = "README.md"
+packages = [{include = "habits"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = {extras = ["all"], version = "^0.111.1"}
+sqlalchemy = {extras = ["fastapi"], version = "^2.0.31"}
+aiogram = "^3.10.0"
+alembic = "^1.13.2"
+asyncpg = "^0.29.0"
+black = "^24.4.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
