@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  db:
+    image: postgres
+    container_name: my_postgres
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PGDATA: /data/postgres
+    volumes:
+      - ./postgres_data:/data/postgres
+    ports:
+      - "${DB_PORT}:5432"
+
