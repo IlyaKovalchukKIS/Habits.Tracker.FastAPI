@@ -1,6 +1,16 @@
+from typing import Annotated
+
+from sqlalchemy import String
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+from sqlalchemy.orm import DeclarativeBase, mapped_column
 
 from src.config.config import settings
+
+str_40 = Annotated[str, mapped_column(String(40))]
+
+
+class Base(DeclarativeBase):
+    pass
 
 
 class DatabaseHelper:
