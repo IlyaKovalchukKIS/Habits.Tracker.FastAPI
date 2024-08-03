@@ -1,44 +1,41 @@
+from typing import List
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.repositories.db_helper import db_helper
+from src.schemas import user_schemas
 
 user_routers = APIRouter(prefix="/user", tags=["User"])
 
 depends_session: AsyncSession = Depends(db_helper.session_dependency)
 
 
-@user_routers.post("/create/")
+@user_routers.post("/create/", response_model=user_schemas.UserCreate)
 async def create_user(session: depends_session):
     """Создание пользователя"""
     pass
 
 
-@user_routers.get("/get/")
+@user_routers.get("/get/{user_id}/", response_model=user_schemas.UserRead)
 async def get_user_by_id(user_id: int, session: AsyncSession = depends_session):
     """Получение пользователя по id"""
     pass
 
 
-@user_routers.get("get/by/email")
-async def get_user_by_email(session: AsyncSession, email: str):
-    """Получение пользователя по email"""
-    pass
-
-
-@user_routers.get("/get/by/email/")
+@user_routers.get("/get/email/{email}/", response_model=user_schemas.UserRead)
 async def get_user_by_email(email: str, session: AsyncSession = depends_session):
     """Получение пользователя по email"""
     pass
 
 
-@user_routers.get("/get/all/")
+@user_routers.get("/get/all/", response_model=List[user_schemas.UserRead])
 async def get_all_users(session: AsyncSession = depends_session):
     """Получение всех пользователей"""
     pass
 
 
-@user_routers.put("/update/")
+@user_routers.put("/update/", response_model=user_schemas.UserUpdate)
 async def update_user(
     user_id: int, data: dict, session: AsyncSession = depends_session
 ):
