@@ -4,8 +4,7 @@ from datetime import datetime
 from sqlalchemy import ForeignKey, text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from src.repositories.db_helper import Base, str_40
-from src.repositories.models.user import UserOrm
+from src.repositories import Base, str_40, UserModels
 
 
 class Frequency(enum.Enum):
@@ -61,6 +60,6 @@ class HabitOrm(Base):
         ForeignKey("user.id", ondelete="CASCADE")
     )  # id пользователя
 
-    user: Mapped[UserOrm] = relationship(
+    user: Mapped[UserModels] = relationship(
         "UserOrm", back_populates="habits"
     )  # связь с таблицей Users

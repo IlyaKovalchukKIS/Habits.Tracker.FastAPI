@@ -4,7 +4,7 @@ from pydantic import EmailStr
 from sqlalchemy import text
 from sqlalchemy.orm import relationship, mapped_column, Mapped
 
-from src.repositories.db_helper import Base, str_40
+from src.repositories import Base, str_40
 
 
 class UserOrm(Base):
