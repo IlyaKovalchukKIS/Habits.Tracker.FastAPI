@@ -1,0 +1,4 @@
+.env
+/.idea/
+postgres_data/
+poetry.lock
