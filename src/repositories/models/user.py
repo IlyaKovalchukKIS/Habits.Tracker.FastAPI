@@ -25,7 +25,8 @@ class UserOrm(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     email: Mapped[EmailStr] = mapped_column(unique=True, index=True)
-    id_telegram: Mapped[int] = mapped_column(unique=True, index=True)
+    name_telegram: Mapped[str]
+    id_telegram: Mapped[int] = mapped_column(unique=True, index=True, nullable=True)
     hashed_password: Mapped[str_40]
     created_at: Mapped[datetime] = mapped_column(
         server_default=text("TIMEZONE('utc', now())")
