@@ -27,3 +27,13 @@ class HabitOrmCrud:
     async def get_published_habits(session: AsyncSession):
         """Получение публичных привычек"""
         pass
+
+    @staticmethod
+    async def update_habit(session: AsyncSession, data: dict):
+        """Обновление привычки"""
+        pass
+
+    @staticmethod
+    async def delete_habit(session: AsyncSession, habit_id: int):
+        """Удаление привычки"""
+        pass
