@@ -61,5 +61,5 @@ class HabitOrm(Base):
     )  # id пользователя
 
     user: Mapped[UserModels] = relationship(
-        "UserOrm", back_populates="habits"
+        UserModels, back_populates="habits"
     )  # связь с таблицей Users
