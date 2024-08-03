@@ -35,4 +35,4 @@ class UserOrm(Base):
     is_superuser: Mapped[bool] = mapped_column(default=False)
     is_admin: Mapped[bool] = mapped_column(default=False)
 
-    habits = relationship("HabitOrm", back_populates="user")
+    habits = relationship(HabitModels, back_populates="user")
