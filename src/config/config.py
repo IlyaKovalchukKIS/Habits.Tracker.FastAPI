@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     DB_PASSWORD: str
     DB_HOST: str
     DB_PORT: str
+    DB_ECHO: bool
 
     @property
     def DATABASE_URL_asyncpg(self):
