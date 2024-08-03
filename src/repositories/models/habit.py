@@ -24,7 +24,7 @@ class HabitOrm(Base):
 
     place: Mapped[str_40]  # место выполнения привычки
 
-    time: Mapped[datetime]  # время начала выполнения привычки
+    time_start: Mapped[datetime]  # время начала выполнения привычки
 
     action: Mapped[str_40]  # действие привычки
 
