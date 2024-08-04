@@ -8,6 +8,8 @@ from src.schemas import habit as habit_schemas
 
 habit_routers = APIRouter(prefix="/habit", tags=["Habit"])
 
+current_user = fastapi_users.current_user()
+
 
 @habit_routers.post("/create/", response_model=habit_schemas.HabitCreate)
 async def create_habit(
