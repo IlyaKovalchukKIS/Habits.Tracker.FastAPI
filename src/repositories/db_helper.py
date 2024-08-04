@@ -22,11 +22,11 @@ class DatabaseHelper:
         :param echo: вывод в консоль запросов к базе данных
         """
         # Создание движка
-        self.__engine = create_async_engine(url=url, echo=echo)
+        self.engine = create_async_engine(url=url, echo=echo)
 
         # Создание асинхронных сессии
         self.__session_factory = async_sessionmaker(
-            bind=self.__engine,
+            bind=self.engine,
             expire_on_commit=False,
             autoflush=False,
         )
