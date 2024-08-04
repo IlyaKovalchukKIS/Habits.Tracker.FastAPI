@@ -10,6 +10,16 @@ class Settings:
     DB_HOST: str = os.getenv("DB_HOST")
     DB_PORT: str = os.getenv("DB_PORT")
     DB_ECHO: bool = bool(os.getenv("DB_ECHO"))
+    REDIS_USER: str = os.getenv("REDIS_USER")
+    REDIS_PASSWORD: str = os.getenv("REDIS_USER_PASSWORD")
+    REDIS_PORT: str = os.getenv("REDIS_PORT")
+    AUTH_VERIFY_KEY: str = os.getenv("AUTH_VERIFY_KEY")
+
+    @property
+    def DATABASE_URL_redis(self):
+        return (
+            f"redis://default:{self.REDIS_PASSWORD}@{self.DB_HOST}:{self.REDIS_PORT}/1"
+        )
 
     @property
     def DATABASE_URL_asyncpg(self):
