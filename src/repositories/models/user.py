@@ -9,17 +9,18 @@ from src.repositories.db_helper import Base
 
 class UserOrm(SQLAlchemyBaseUserTable[int], Base):
     """
-        id: номер пользователя
-        email: почта пользователя
-        name_telegram: имя пользователя
-        id_telegram: id пользователя в телеграм
-        hashed_password: хэш пароля
-        created_at: дата создания пользователя
-        is_active: активен ли пользователь
-        is_superuser: является ли пользователь суперпользователем
-        is_verified: подтвержден ли пользователь
-        habits: список привычек пользователя
-        """
+    id: номер пользователя
+    email: почта пользователя
+    name_telegram: имя пользователя
+    id_telegram: id пользователя в телеграм
+    hashed_password: хэш пароля
+    created_at: дата создания пользователя
+    is_active: активен ли пользователь
+    is_superuser: является ли пользователь суперпользователем
+    is_verified: подтвержден ли пользователь
+    habits: список привычек пользователя
+    """
+
     __tablename__ = "user"
 
     id: Mapped[int] = mapped_column(primary_key=True)
