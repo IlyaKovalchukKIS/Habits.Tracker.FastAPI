@@ -1,6 +1,7 @@
 from datetime import datetime
 from pydantic import BaseModel
-from src.repositories import str_40, Frequency
+from src.repositories.db_helper import str_40
+from src.repositories.models.habit import Frequency
 
 
 class HabitBase(BaseModel):
@@ -23,7 +24,7 @@ class HabitBase(BaseModel):
     related_habit: int | None
     frequency: Frequency
     award: str_40 | None
-    time_to_complete: int | 120
+    time_to_complete: int = 120
     is_published: bool | None
 
 
@@ -43,7 +44,7 @@ class HabitRead(HabitBase):
     last_send: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class HabitUpdate(HabitBase):

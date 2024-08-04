@@ -4,7 +4,7 @@ from pydantic import EmailStr
 from sqlalchemy import text
 from sqlalchemy.orm import relationship, mapped_column, Mapped
 
-from src.repositories import Base, str_40, HabitModels
+from src.repositories.db_helper import Base, str_40
 
 
 class UserOrm(Base):
@@ -24,7 +24,7 @@ class UserOrm(Base):
     __tablename__ = "user"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    email: Mapped[EmailStr] = mapped_column(unique=True, index=True)
+    email: Mapped[str] = mapped_column(unique=True, index=True)
     name_telegram: Mapped[str]
     id_telegram: Mapped[int] = mapped_column(unique=True, index=True, nullable=True)
     hashed_password: Mapped[str_40]
@@ -35,4 +35,4 @@ class UserOrm(Base):
     is_superuser: Mapped[bool] = mapped_column(default=False)
     is_admin: Mapped[bool] = mapped_column(default=False)
 
-    habits = relationship(HabitModels, back_populates="user")
+    habits = relationship("HabitOrm", back_populates="user")
