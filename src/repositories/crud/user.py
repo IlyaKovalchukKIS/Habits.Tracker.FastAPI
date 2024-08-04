@@ -1,7 +1,18 @@
+from fastapi import Depends
+from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from src.repositories.db_helper import db_helper
+from src.repositories.models.user import UserOrm
 
 
 class UserOrmCrud:
+
+    @staticmethod
+    async def get_user_db(
+        session: AsyncSession = Depends(db_helper.session_dependency),
+    ):
+        yield SQLAlchemyUserDatabase(session, UserOrm)
 
     @staticmethod
     async def insert_user(session: AsyncSession, data: dict):
