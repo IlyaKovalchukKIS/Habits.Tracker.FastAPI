@@ -2,3 +2,4 @@
 /.idea/
 postgres_data/
 poetry.lock
+redisdata/
