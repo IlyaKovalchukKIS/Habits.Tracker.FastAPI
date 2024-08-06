@@ -19,6 +19,7 @@ python-dotenv = "^1.0.1"
 fastapi-users = {extras = ["redis"], version = "^13.0.0"}
 fastapi-users-db-sqlalchemy = "^6.0.1"
 redis = "^5.0.8"
+secure-smtplib = "^0.1.1"
 
 
 [build-system]
