@@ -33,6 +33,7 @@ auth_backend = AuthenticationBackend(
 
 class FastApiCustom(FastAPIUsers[UserOrm, int]):
     """Переопределение FastAPIUsers"""
+
     authenticator: Authenticator
 
     def __init__(self, value_1, value_2):
