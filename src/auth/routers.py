@@ -36,7 +36,7 @@ def get_verify_router(
 
         return None
 
-    @router.post(
+    @router.get(
         "/verify/{token}",
         response_model=user_schema,
         name="verify:verify",
