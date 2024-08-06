@@ -12,6 +12,7 @@ def get_verify_router(
     get_user_manager: UserManagerDependency[models.UP, models.ID],
     user_schema: Type[schemas.U],
 ):
+    """Переопределение Router FastAPIUsers"""
     router = APIRouter()
 
     @router.post(

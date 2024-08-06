@@ -20,6 +20,7 @@ redis = redis.asyncio.from_url(settings.DATABASE_URL_redis, decode_responses=Tru
 
 
 def get_redis_strategy() -> RedisStrategy:
+    """Создание RedisStrategy"""
     return RedisStrategy(redis, lifetime_seconds=3600)
 
 
@@ -30,7 +31,8 @@ auth_backend = AuthenticationBackend(
 )
 
 
-class FastApiTest(FastAPIUsers[UserOrm, int]):
+class FastApiCustom(FastAPIUsers[UserOrm, int]):
+    """Переопределение FastAPIUsers"""
     authenticator: Authenticator
 
     def __init__(self, value_1, value_2):
@@ -45,4 +47,4 @@ class FastApiTest(FastAPIUsers[UserOrm, int]):
         return get_verify_router(self.get_user_manager, user_schema)
 
 
-fastapi_users = FastApiTest(get_user_manager, [auth_backend])
+fastapi_users = FastApiCustom(get_user_manager, [auth_backend])
