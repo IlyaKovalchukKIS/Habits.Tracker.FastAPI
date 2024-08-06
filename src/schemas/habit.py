@@ -1,4 +1,6 @@
-from datetime import datetime
+import datetime
+from typing import List
+
 from pydantic import BaseModel
 from src.repositories.db_helper import str_40
 from src.repositories.models.habit import Frequency
@@ -18,14 +20,14 @@ class HabitBase(BaseModel):
     """
 
     place: str_40
-    time_start: datetime
+    time_start: datetime.datetime | None = None
     action: str_40
-    pleasant_habit: bool | None
-    related_habit: int | None
+    pleasant_habit: bool | None = False
+    related_habit: int | None = None
     frequency: Frequency
-    award: str_40 | None
-    time_to_complete: int = 120
-    is_published: bool | None
+    award: str_40 | None = None
+    time_to_complete: int | None = 120
+    is_published: bool | None = False
 
 
 class HabitCreate(HabitBase):
@@ -41,7 +43,7 @@ class HabitRead(HabitBase):
 
     id: int
     user_id: int
-    last_send: datetime
+    last_send: datetime.datetime
 
     class Config:
         from_attributes = True
