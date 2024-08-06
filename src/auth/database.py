@@ -1,11 +1,15 @@
-from fastapi_users import FastAPIUsers
+from typing import Type
+
+from fastapi_users import FastAPIUsers, schemas
 from fastapi_users.authentication import (
     CookieTransport,
     RedisStrategy,
     AuthenticationBackend,
+    Authenticator,
 )
 import redis
 
+from src.auth.routers import get_verify_router
 from src.auth.user_manager import get_user_manager
 from src.config.config import settings
 from src.repositories.models.user import UserOrm
@@ -25,7 +29,20 @@ auth_backend = AuthenticationBackend(
     get_strategy=get_redis_strategy,
 )
 
-fastapi_users = FastAPIUsers[UserOrm, int](
-    get_user_manager,
-    [auth_backend],
-)
+
+class FastApiTest(FastAPIUsers[UserOrm, int]):
+    authenticator: Authenticator
+
+    def __init__(self, value_1, value_2):
+        super().__init__(get_user_manager=value_1, auth_backends=value_2)
+        self.authenticator = Authenticator(
+            backends=value_2, get_user_manager=get_user_manager
+        )
+        self.get_user_manager = get_user_manager
+        self.current_user = self.authenticator.current_user
+
+    def get_verify_router(self, user_schema: Type[schemas.U]):
+        return get_verify_router(self.get_user_manager, user_schema)
+
+
+fastapi_users = FastApiTest(get_user_manager, [auth_backend])
