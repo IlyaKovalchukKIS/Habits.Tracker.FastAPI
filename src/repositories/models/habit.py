@@ -9,13 +9,13 @@ from src.repositories.models.user import UserOrm
 
 
 class Frequency(enum.Enum):
-    DAILY_ONE = 1  # 1 раз в день
-    DAILY_TWO = 2  # 1 раз в 2 дня
-    DAILY_THREE = 3  # 1 раз в 3 дня
-    DAILY_FOUR = 4  # 1 раз в 4 дня
-    DAILY_FIVE = 5  # 1 раз в 5 дней
-    DAILY_SIX = 6  # 1 раз в 6 дней
-    DAILY_SEVEN = 7  # 1 раз в 7 дней
+    DAILY_ONE = "DAILY_ONE"  # 1 раз в день
+    DAILY_TWO = "DAILY_TWO"  # 1 раз в 2 дня
+    DAILY_THREE = "DAILY_THREE"  # 1 раз в 3 дня
+    DAILY_FOUR = "DAILY_FOUR"  # 1 раз в 4 дня
+    DAILY_FIVE = "DAILY_FIVE"  # 1 раз в 5 дней
+    DAILY_SIX = "DAILY_SIX"  # 1 раз в 6 дней
+    DAILY_SEVEN = "DAILY_SEVEN"  # 1 раз в 7 дней
 
 
 class HabitOrm(Base):
@@ -25,7 +25,9 @@ class HabitOrm(Base):
 
     place: Mapped[str_40]  # место выполнения привычки
 
-    time_start: Mapped[datetime]  # время начала выполнения привычки
+    time_start: Mapped[datetime | None] = mapped_column(
+        server_default=text("TIMEZONE('utc', now())")
+    )  # время начала выполнения привычки
 
     action: Mapped[str_40]  # действие привычки
 
@@ -51,7 +53,9 @@ class HabitOrm(Base):
         default=False
     )  # публикация привычки
 
-    last_send: Mapped[datetime | None]  # время последнего выполнения привычки
+    last_send: Mapped[datetime | None] = mapped_column(
+        server_default=text("TIMEZONE('utc', now())")
+    )  # время последнего выполнения привычки
 
     created_at: Mapped[datetime] = mapped_column(
         server_default=text("TIMEZONE('utc', now())")
