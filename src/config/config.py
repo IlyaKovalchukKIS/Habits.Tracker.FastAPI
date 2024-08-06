@@ -5,6 +5,7 @@ load_dotenv()
 
 
 class Settings:
+    APP_HOST: str = os.getenv("APP_HOST")
     DB_USER: str = os.getenv("DB_USER")
     DB_PASSWORD: str = os.getenv("DB_PASSWORD")
     DB_HOST: str = os.getenv("DB_HOST")
@@ -14,6 +15,8 @@ class Settings:
     REDIS_PASSWORD: str = os.getenv("REDIS_USER_PASSWORD")
     REDIS_PORT: str = os.getenv("REDIS_PORT")
     AUTH_VERIFY_KEY: str = os.getenv("AUTH_VERIFY_KEY")
+    EMAIL_HOST_USER: str = os.getenv("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD: str = os.getenv("EMAIL_HOST_PASSWORD")
 
     @property
     def DATABASE_URL_redis(self):
