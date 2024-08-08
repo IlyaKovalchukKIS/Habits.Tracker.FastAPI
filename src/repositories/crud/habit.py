@@ -27,24 +27,33 @@ class HabitOrmCrud:
     @staticmethod
     async def get_habit_by_user_id(session: AsyncSession, user_id: int):
         """Получение привычки по id пользователя"""
-        return await session.execute(
+        result = await session.execute(
             select(HabitOrm).where(HabitOrm.user_id == user_id)
         )
+        return result.scalars().all()
 
-    @staticmethod
-    async def get_all_habits(session: AsyncSession):
-        """Получение всех привычек"""
-        pass
+    # @staticmethod
+    # async def get_all_habits(session: AsyncSession):
+    #     """Получение всех привычек"""
+    #     pass
 
     @staticmethod
     async def get_published_habits(session: AsyncSession):
         """Получение публичных привычек"""
-        pass
+        result = await session.execute(
+            select(HabitOrm).where(HabitOrm.is_published == True)
+        )
+        return result.scalars().all()
 
     @staticmethod
-    async def update_habit(session: AsyncSession, data: dict):
+    async def update_habit(session: AsyncSession, habit: HabitOrm, habit_update: dict):
         """Обновление привычки"""
-        pass
+        for key, value in habit_update.items():
+            setattr(habit, key, value)
+        session.add(habit)
+        await session.commit()
+        await session.refresh(habit)
+        return habit
 
     @staticmethod
     async def delete_habit(session: AsyncSession, habit_id: int):
