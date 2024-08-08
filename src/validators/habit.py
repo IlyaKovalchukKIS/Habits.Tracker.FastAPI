@@ -13,13 +13,11 @@ class HabitValidator:
         )  # признак приятной привычки
         award = dict(value).get(self.award)  # вознаграждение
 
+        if pleasant_habit and related_habit:
+            return "Нельзя выбрать одновременно признак приятной привычки и связаную привычку"
+
         if related_habit and award:
             return "Нельзя выбрать одновременно вознаграждение и связаную приятную привычку"
-        related_habit_instance = (
-            related_habit_instance.get(self.pleasant_habit)
-            if related_habit_instance
-            else None
-        )
 
         if not related_habit_instance:
             if related_habit and not related_habit_instance:
