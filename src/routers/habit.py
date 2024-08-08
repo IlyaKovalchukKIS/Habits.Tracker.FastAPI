@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Annotated
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -23,18 +23,24 @@ async def create_habit(
     user: UserOrm = Depends(current_user),
 ):
     """Создание привычки"""
-    related_habit = data.model_dump().get("related_habit", None)
 
-    if related_habit:
-        get_related_habit = await HabitOrmCrud.get_habit_by_id(session, related_habit)
-        get_related_habit = get_related_habit.pleasant_habit
-    else:
-        get_related_habit = None
-    validation = HabitValidator("related_habit", "award", "pleasant_habit").__call__(
-        data.model_dump(), get_related_habit
+    related_habit_id = data.model_dump().get("related_habit")
+    related_habit = (
+        await HabitOrmCrud.get_habit_by_id(session, related_habit_id)
+        if related_habit_id
+        else False
     )
+    print(related_habit)
+    pleasant_habit = related_habit.pleasant_habit if related_habit else None
+    print(pleasant_habit)
+
+    validation = HabitValidator("related_habit", "award", "pleasant_habit")(
+        data.model_dump(), pleasant_habit
+    )
+
     if validation:
         return JSONResponse(status_code=400, content={"error": validation})
+
     return await HabitOrmCrud.insert_habit(session, data, user)
 
 
@@ -43,25 +49,24 @@ async def get_habit_by_id(
     habit_id: int, session: AsyncSession = Depends(db_helper.session_dependency)
 ):
     """Получение привычки по id"""
-    pass
+    return await HabitOrmCrud.get_habit_by_id(session, habit_id)
 
 
-@habit_routers.get(
-    "/get/by/user/{user_id}/", response_model=List[habit_schemas.HabitRead]
-)
+@habit_routers.get("/get/by/user/", response_model=List[habit_schemas.HabitRead])
 async def get_habit_by_user_id(
-    user_id: int, session: AsyncSession = Depends(db_helper.session_dependency)
-):
-    """Получение привычки по id пользователя"""
-    pass
-
-
-@habit_routers.get("/get/all/", response_model=List[habit_schemas.HabitRead])
-async def get_all_habits(
+    user: UserOrm = Depends(current_user),
     session: AsyncSession = Depends(db_helper.session_dependency),
 ):
-    """Получение всех привычек"""
-    pass
+    """Получение привычки по id пользователя"""
+    return await HabitOrmCrud.get_habit_by_user_id(session, user.id)
+
+
+# @habit_routers.get("/get/all/", response_model=List[habit_schemas.HabitRead])
+# async def get_all_habits(
+#     session: AsyncSession = Depends(db_helper.session_dependency),
+# ):
+#     """Получение всех привычек"""
+#     pass
 
 
 @habit_routers.get("/get/published/", response_model=List[habit_schemas.HabitRead])
@@ -69,15 +74,20 @@ async def get_published_habits(
     session: AsyncSession = Depends(db_helper.session_dependency),
 ):
     """Получение публичных привычек"""
-    pass
+    return await HabitOrmCrud.get_published_habits(session)
 
 
 @habit_routers.put("/update/", response_model=habit_schemas.HabitUpdate)
 async def update_habit(
-    data: dict, session: AsyncSession = Depends(db_helper.session_dependency)
+    habit_update: Annotated[habit_schemas.HabitCreate, Depends()],
+    habit_id: int,
+    session: AsyncSession = Depends(db_helper.session_dependency),
+    user: UserOrm = Depends(current_user),
 ):
     """Обновление привычки"""
-    pass
+    habit = await HabitOrmCrud.get_habit_by_id(session, habit_id)
+    result = await HabitOrmCrud.update_habit(session, habit, habit_update.model_dump())
+    return result
 
 
 @habit_routers.delete("/delete/")
