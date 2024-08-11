@@ -1,7 +1,7 @@
 import datetime
 from typing import List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, conint
 from src.repositories.db_helper import str_40
 from src.repositories.models.habit import Frequency
 
@@ -23,10 +23,10 @@ class HabitBase(BaseModel):
     time_start: datetime.datetime | None = None
     action: str_40
     pleasant_habit: bool | None = False
-    related_habit: int | None = None
+    related_habit: int | None | List["HabitRead"] = None
     frequency: Frequency
     award: str_40 | None = None
-    time_to_complete: int | None = 120
+    time_to_complete: conint(ge=0, le=120) = 120
     is_published: bool | None = False
 
 
